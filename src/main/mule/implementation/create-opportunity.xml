@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="create-opportunityFlow" doc:id="524449cf-8ff6-4f3e-992a-deca0ebc63a3" >
+		<logger level="INFO" doc:name="Start Logger" doc:id="99a73a94-97f1-4689-8706-9abc911e27f9" message="create-opportunityFlow"/>
+		<ee:transform doc:name="Request Payload" doc:id="d37b6fa6-3bb3-429f-80b5-aff96885a326" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload map (item, index) ->
+{
+	Name: item.Name,
+	Description: item.Description,
+	Amount: item.Amount,
+	StageName: item.StageName,
+	CloseDate: item.CloseDate as Date,
+	External_Id__c: item.External_Id,
+	Sync_new_record_to_db__c: item.Sync_new_record_to_db,
+	Sync_update_record_to_db__c: item.Sync_update_record_to_db,
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce:create doc:name="Create" doc:id="1de4db8b-f79d-4962-895a-b6e4217970c1" config-ref="Salesforce_Config" type="Opportunity"/>
+		<ee:transform doc:name="Set Response" doc:id="fb832682-ff99-46db-8f4e-87431300f528" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    "is_success": true,
+    "response": payload.items map (item, index) -> {
+        payload: item.payload
+    }
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="End Logger" doc:id="2c7e9bcd-34f8-4c76-9681-2ab2f16bbc7e" message="create-opportunityFlow completed"/>
+	</flow>
+</mule>
