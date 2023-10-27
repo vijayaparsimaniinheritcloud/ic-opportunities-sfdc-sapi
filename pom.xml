@@ -47,13 +47,6 @@
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
-			<groupId>f7fe4608-44a6-407c-9028-11906c92dd2b</groupId>
-			<artifactId>salesforceapi</artifactId>
-			<version>2.0.0</version>
-			<classifier>raml</classifier>
-			<type>zip</type>
-		</dependency>
-		<dependency>
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-apikit-module</artifactId>
 			<version>1.8.2</version>
@@ -70,6 +63,13 @@
 			<artifactId>mule-secure-configuration-property-module</artifactId>
 			<version>1.2.5</version>
 			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>f7fe4608-44a6-407c-9028-11906c92dd2b</groupId>
+			<artifactId>salesforceapi</artifactId>
+			<version>2.0.1</version>
+			<classifier>raml</classifier>
+			<type>zip</type>
 		</dependency>
 	</dependencies>
 
