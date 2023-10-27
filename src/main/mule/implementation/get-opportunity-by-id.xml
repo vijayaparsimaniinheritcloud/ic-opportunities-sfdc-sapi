@@ -10,7 +10,7 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 	<flow name="get-opportunity-by-idFlow" doc:id="22f9288a-1028-4d1e-8c97-540d30d8eb0d" >
 		<logger level="INFO" doc:name="Start Logger" doc:id="58b25e53-56e4-4778-b4c4-3ea53bc6c699" message="get-opportunity-by-idFlow started" />
 		<set-variable value="#[attributes.uriParams.'oppurtunityId']" doc:name="oppurtunityId" doc:id="e3251033-9d06-47bd-b55a-bdc079ea67dc" variableName="oppurtunityId"/>
-		<salesforce:query doc:name="Query" doc:id="7041612f-4487-4f9a-9985-1e3275468884" config-ref="Salesforce_Config" >
+		<salesforce:query doc:name="get-opportunity-by-id from salesforce" doc:id="7041612f-4487-4f9a-9985-1e3275468884" config-ref="Salesforce_Config" >
 			<salesforce:salesforce-query ><![CDATA[SELECT Id,AccountId,Amount,CampaignId,ContactId,CloseDate FROM Opportunity WHERE Id = ':id']]></salesforce:salesforce-query>
 			<salesforce:parameters ><![CDATA[#[output application/java
 ---
@@ -20,15 +20,9 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 		</salesforce:query>
 		<ee:transform doc:name="Convert To JSON" doc:id="650c821b-1ac5-4fa2-af57-659f8bdf5599" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-{
-	"is_success": true,
-    "response": payload
-}
-]]></ee:set-payload>
-			</ee:message>
+				<ee:set-payload resource="dwlScripts/get-opportunity-by-id-response.dwl" />
+			
+</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="End Logger" doc:id="8dda14ef-616d-4b0d-b9d9-0c522a99796e" message="get-opportunity-by-idFlow completed" />
 	</flow>

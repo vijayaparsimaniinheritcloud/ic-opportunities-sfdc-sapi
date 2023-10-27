@@ -9,35 +9,13 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<logger level="INFO" doc:name="Start Logger" doc:id="71d5bc55-93bf-4354-9c6c-dc34dba53841" message="update-opportunityFlow started"/>
 		<ee:transform doc:name="Set Request Payload" doc:id="c93213d4-cd33-4a67-ae38-515f8e0a2709" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
----
-payload map (item, index) ->
-{
-	AccountId: item.AccountId,
-	CampaignId: item.CampaignId,
-	Amount: item.Amount as Number,
-	Id: item.Id,
-	ContactId: item.ContactId,
-	Type: item.'type',
-	Sync_new_record_to_db__c: item.Sync_new_record_to_db,
-	Sync_update_record_to_db__c: item.Sync_new_record_to_db,
-	External_Id__c: item.External_Id
-}]]></ee:set-payload>
+				<ee:set-payload resource="dwlScripts/update-opportunity-request.dwl" />
 			</ee:message>
 		</ee:transform>
-		<salesforce:update type="Opportunity" doc:name="Update" doc:id="5365f633-2fd3-4b1d-95dd-303500fb1eee" config-ref="Salesforce_Config"/>
+		<salesforce:update type="Opportunity" doc:name="Update -opportunity in salesforce" doc:id="5365f633-2fd3-4b1d-95dd-303500fb1eee" config-ref="Salesforce_Config"/>
 		<ee:transform doc:name="Set Response" doc:id="20b413d4-c742-4e80-927a-92638eb54e58" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-{
-    "is_success": true,
-    "response": payload.items map (item, index) -> {
-        payload: item.payload
-    }
-}]]></ee:set-payload>
+				<ee:set-payload resource="dwlScripts/update-opportunity-response.dwl" />
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="End Logger" doc:id="04bd6648-70fb-4209-a652-fb628ff043e0" message="update-opportunityFlow completed"/>

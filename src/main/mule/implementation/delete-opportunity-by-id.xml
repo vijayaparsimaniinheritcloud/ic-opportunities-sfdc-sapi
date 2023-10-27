@@ -9,24 +9,13 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<logger level="INFO" doc:name="Start Logger" doc:id="a2bb1d1b-e864-43d7-a1b6-420baac7fc59" message="delete-opportunity-by-idFlow started"/>
 		<ee:transform doc:name="Set ID" doc:id="6808f2d3-1b1d-4afb-9901-0e50a6a1f42a" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
----
-[attributes.uriParams.oppurtunityId]]]></ee:set-payload>
+				<ee:set-payload resource="dwlScripts/delete-opportunity-by-id-request.dwl" />
 			</ee:message>
 		</ee:transform>
-		<salesforce:delete doc:name="Delete" doc:id="c49fdb8f-6dd9-442f-9083-e9688b1332ad" config-ref="Salesforce_Config"/>
+		<salesforce:delete doc:name="delete-opportunity-by-id in salesforce" doc:id="c49fdb8f-6dd9-442f-9083-e9688b1332ad" config-ref="Salesforce_Config"/>
 		<ee:transform doc:name="Set Response" doc:id="923abeff-17ef-4d43-b3e9-d90eadbc02da" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-{
-    "is_success": true,
-    "response": payload.items map (item, index) -> {
-        payload: item.payload
-    }
-}]]></ee:set-payload>
+				<ee:set-payload resource="dwlScripts/delete-opportunity-by-id-response.dwl" />
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="End Logger" doc:id="c1521c66-43f1-42d1-a13e-9ebd6bfee3b8" message="delete-opportunity-by-idFlow completed"/>
