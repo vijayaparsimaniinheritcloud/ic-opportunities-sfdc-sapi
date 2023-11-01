@@ -1,63 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-	<error-handler name="error-handlerError_Handler" doc:id="fdd1176f-ca87-4de0-98a2-335f7d9d9b6d" >
-		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="8e644275-f4ed-4892-acd7-205460a4ebce" type="SALESFORCE:NOT_FOUND">
-			<ee:transform doc:name="Transform Message" doc:id="6a61a0a0-7315-4891-a423-91f6770d0322" >
-				<ee:message >
-					<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-{
-    "is_success": false,
-    "errors": [
-        {
-            "error_code": "404",
-            "error_message": "Not Found"
-        }
-    ]
-}]]></ee:set-payload>
-				</ee:message>
+<mule xmlns:cloudhub="http://www.mulesoft.org/schema/mule/cloudhub" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/cloudhub http://www.mulesoft.org/schema/mule/cloudhub/current/mule-cloudhub.xsd">
+	<error-handler name="Error_Handler">
+		<on-error-propagate type="APIKIT:BAD_REQUEST" enableNotifications="true" logException="true">
+			<logger level="ERROR" doc:name="Error Handler Invoked - APIKIT_BAD_REQUEST" doc:id="02d0c6f5-b938-40d7-af0f-7be5f1ab8cbc" message="Error Handler Invoked - APIKIT_BAD_REQUEST" />
+			<ee:transform doc:name="DW Transform for Error mapping" doc:id="f56a1b9b-fe15-4ddd-a923-75f296a472c7">
+				<ee:variables>
+					<ee:set-variable variableName="vErrorMapping" resource="dwlScripts/v-error-response400.dwl" />
+				</ee:variables>
 			</ee:transform>
+			<flow-ref doc:name="sf-common-error-response" doc:id="17a64792-2baf-4f4c-8505-d9de1d099606" name="sf-common-error-response" />
 		</on-error-propagate>
-		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="43ae7daf-fbf0-40ed-a0b5-d25f72fcc83b" type="SALESFORCE:INVALID_INPUT">
-			<ee:transform doc:name="Transform Message" doc:id="1736443c-c022-4781-82ab-002680eb8768" >
-				<ee:message >
-					<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-{
-    "is_success": false,
-    "errors": [
-        {
-            "error_code": "400",
-            "error_message": "Bad Request"
-        }
-    ]
-}]]></ee:set-payload>
-				</ee:message>
+		<on-error-propagate type="APIKIT:NOT_FOUND" enableNotifications="true" logException="true">
+			<logger level="ERROR" doc:name="Error Handler Invoked - APIKIT_NOT_FOUND" doc:id="01aa3375-c92b-47ca-ab5d-9ab218c09d5b" message="Error Handler Invoked - APIKIT_NOT_FOUND" />
+			<ee:transform doc:name="DW Transform for Error mapping" doc:id="9a391d55-7938-402a-9e38-bc81cd7b2abc">
+				<ee:variables>
+					<ee:set-variable variableName="vErrorMapping" resource="dwlScripts/v-error-response404.dwl" />
+				</ee:variables>
 			</ee:transform>
+			<flow-ref doc:name="sf-common-error-response" doc:id="e1c1b342-b7a9-4f77-8b90-672394acfcb1" name="sf-common-error-response" />
 		</on-error-propagate>
-		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="966bff6d-2287-4b7d-8c23-ffbd9f45e2cb" type="ANY">
-			<ee:transform doc:name="Transform Message" doc:id="cd7e8e1e-9ffe-40d6-8e39-9a1d3cbf03fd" >
-				<ee:message >
-					<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-{
-    "is_success": false,
-    "errors": [
-        {
-            "error_code": "500",
-            "error_message": "Internal Server Error"
-        }
-    ]
-}]]></ee:set-payload>
-				</ee:message>
+		<on-error-propagate type="APIKIT:METHOD_NOT_ALLOWED">
+			<logger level="ERROR" doc:name="Error Handler Invoked - APIKIT_METHOD_NOT_ALLOWED" doc:id="83b03fa1-488a-440e-beea-132faa856898" message="Error Handler Invoked - APIKIT_METHOD_NOT_ALLOWED" />
+			<ee:transform doc:name="DW Transform for Error mapping" doc:id="8d61e419-62da-4a20-b68e-53af34ca6602">
+				<ee:variables>
+					<ee:set-variable variableName="vErrorMapping" resource="dwlScripts/v-error-response405.dwl" />
+				</ee:variables>
 			</ee:transform>
+			<flow-ref doc:name="sf-common-error-response" doc:id="41289c7f-c470-4205-9c3a-f2573ad43dfa" name="sf-common-error-response" />
+		</on-error-propagate>
+		<on-error-propagate type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+			<logger level="ERROR" doc:name="Error Handler Invoked - APIKIT_UNSUPPORTED_MEDIA_TYPE" doc:id="3b786a2b-d26a-4947-9bc4-9b619a71af18"
+				message="Error Handler Invoked - APIKIT_UNSUPPORTED_MEDIA_TYPE" />
+			<ee:transform doc:name="DW Transform for Error mapping" doc:id="524c2d29-bc0f-4ae8-af1f-f8033c182eb3">
+				<ee:variables>
+					<ee:set-variable variableName="vErrorMapping" resource="dwlScripts/v-error-response415.dwl" />
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="sf-common-error-response" doc:id="08684677-1c7a-43b2-9e87-bd8fcfea31cc" name="sf-common-error-response" />
+		</on-error-propagate>
+		<on-error-propagate type="APIKIT:NOT_IMPLEMENTED" enableNotifications="true" logException="true">
+			<logger level="ERROR" doc:name="Error Handler Invoked - APIKIT_NOT_IMPLEMENTED" doc:id="aaa81b46-5d09-4e52-a957-028129ce5127" message="Error Handler Invoked - APIKIT_NOT_IMPLEMENTED" />
+			<ee:transform doc:name="DW Transform for Error mapping" doc:id="96e8e94a-970d-4845-ba70-4fb7f51eeacf">
+				<ee:variables>
+					<ee:set-variable variableName="vErrorMapping" resource="dwlScripts/v-error-response501.dwl" />
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="sf-common-error-response" doc:id="53a31641-6d83-4eb2-b8a4-69c2c8ca8b17" name="sf-common-error-response" />
 		</on-error-propagate>
 	</error-handler>
+
+	<sub-flow name="sf-common-error-response" doc:id="c8446e60-20b1-49fe-8743-650aba483a6d">
+		<logger level="ERROR" doc:name="LOG Error Message" doc:id="5d386f13-9edb-4dc3-b011-6f1d677226a0"
+			message='"Error - HTTP Status Code:" #[vars.vErrorMapping.httpStatus] "Error Message Description :" #[vars.vErrorMapping.errorDescription]' />
+		<set-variable value='#[vars.vErrorMapping.httpStatus]' doc:name="Set Http Status" doc:id="b096522b-6477-4c76-a42e-b60775d86d20" variableName="httpStatus" />
+		<ee:transform doc:name="Error Response" doc:id="29ddae7c-1188-461c-b467-d6c4afae4459">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	is_success: false,
+    errors:[
+    {
+        error_code: vars.vErrorMapping.errorCode,
+        error_message: vars.vErrorMapping.errorDescription
+    }]
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+
+	</sub-flow>
 </mule>
