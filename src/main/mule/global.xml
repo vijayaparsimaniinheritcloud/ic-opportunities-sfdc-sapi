@@ -18,7 +18,7 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 			</tls:context>
 		</http:listener-connection>
     </http:listener-config>
-    <apikit:config name="salesforceapi-config" api="resource::f7fe4608-44a6-407c-9028-11906c92dd2b:salesforceapi:2.0.1:raml:zip:salesforceapi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <apikit:config name="salesforceapi-config" api="resource::f7fe4608-44a6-407c-9028-11906c92dd2b:salesforceapi:2.0.2:raml:zip:ic-sfdc-sapi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
 	<salesforce:sfdc-config name="Salesforce_Config" doc:name="Salesforce Config" doc:id="f33f4ecc-f7f5-41b2-99d3-746bcbbc7d6e">
         <salesforce:basic-connection username="${secure::sfdc.username}" password="${secure::sfdc.password}" securityToken="${secure::sfdc.token}" />
     </salesforce:sfdc-config>

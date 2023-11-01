@@ -67,7 +67,7 @@
 		<dependency>
 			<groupId>f7fe4608-44a6-407c-9028-11906c92dd2b</groupId>
 			<artifactId>salesforceapi</artifactId>
-			<version>2.0.1</version>
+			<version>2.0.2</version>
 			<classifier>raml</classifier>
 			<type>zip</type>
 		</dependency>
