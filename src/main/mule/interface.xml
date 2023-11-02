@@ -42,22 +42,22 @@ output application/json
         </error-handler>
     </flow>
     <flow name="put:\opportunities:application\json:salesforceapi-config">
-        <flow-ref doc:name="update-opportunityFlow" doc:id="ab200cb0-3cfb-455b-8794-c766f3099e63" name="update-opportunityFlow"/>
+        <flow-ref doc:name="update opportunity Flow" doc:id="ab200cb0-3cfb-455b-8794-c766f3099e63" name="update-opportunityFlow"/>
     </flow>
     <flow name="delete:\opportunities\(oppurtunityId):salesforceapi-config">
-        <flow-ref doc:name="delete-opportunity-by-idFlow" doc:id="f7914f9d-4bca-45d2-95a3-9359eaaf8688" name="delete-opportunity-by-idFlow"/>
+        <flow-ref doc:name="delete opportunity By Id Flow" doc:id="f7914f9d-4bca-45d2-95a3-9359eaaf8688" name="delete-opportunity-by-idFlow"/>
 		
     </flow>
     <flow name="get:\opportunities:salesforceapi-config">
-        <flow-ref doc:name="get-all-opportunitiesFlow" doc:id="b05a5dd3-018a-4c84-b1ba-6af7f898350d" name="get-all-opportunitiesFlow"/>
+        <flow-ref doc:name="GetAll Opportunities Flow" doc:id="b05a5dd3-018a-4c84-b1ba-6af7f898350d" name="get-all-opportunitiesFlow"/>
 		
     </flow>
     <flow name="get:\opportunities\(oppurtunityId):salesforceapi-config">
-        <flow-ref doc:name="get-opportunity-by-idFlow" doc:id="fa86005c-9bf1-4243-ac8c-224bdc990594" name="get-opportunity-by-idFlow"/>
+        <flow-ref doc:name="Get opportunity By Id Flow" doc:id="fa86005c-9bf1-4243-ac8c-224bdc990594" name="get-opportunity-by-idFlow"/>
 		
     </flow>
     <flow name="post:\opportunities:application\json:salesforceapi-config">
-        <flow-ref doc:name="create-opportunityFlow" doc:id="81b8b38a-e757-4ed2-bdfd-c41ed0217d7f" name="create-opportunityFlow"/>
+        <flow-ref doc:name="create opportunity Flow" doc:id="81b8b38a-e757-4ed2-bdfd-c41ed0217d7f" name="create-opportunityFlow"/>
 		
     </flow>
 </mule>

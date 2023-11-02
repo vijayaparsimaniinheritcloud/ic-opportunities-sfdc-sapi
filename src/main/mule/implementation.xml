@@ -14,7 +14,7 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 				<ee:set-payload resource="dwlScripts/create-opportunity-request.dwl" />
 			</ee:message>
 		</ee:transform>
-		<salesforce:create doc:name="Create-opportunity in salesforce" doc:id="56d29a2c-b09d-4cbe-987f-1dd8cafa5ead" config-ref="Salesforce_Config" type="Opportunity"/>
+		<salesforce:create doc:name="Create Opportunity In Salesforce" doc:id="56d29a2c-b09d-4cbe-987f-1dd8cafa5ead" config-ref="Salesforce_Config" type="Opportunity"/>
 		<ee:transform doc:name="Set Response" doc:id="20893510-222c-42ba-b5a0-a32e7a185c66" >
 			<ee:message >
 				<ee:set-payload resource="dwlScripts/create-opportunity-response.dwl" />
@@ -30,7 +30,7 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 				<ee:set-payload resource="dwlScripts/delete-opportunity-by-id-request.dwl" />
 			</ee:message>
 		</ee:transform>
-		<salesforce:delete doc:name="delete-opportunity-by-id in salesforce" doc:id="80ae2cc2-7fa3-4940-a213-e6917e47a042" config-ref="Salesforce_Config"/>
+		<salesforce:delete doc:name="Delete Opportunity By Id in Salesforce" doc:id="80ae2cc2-7fa3-4940-a213-e6917e47a042" config-ref="Salesforce_Config"/>
 		<ee:transform doc:name="Set Response" doc:id="a321f17d-6d9b-4dea-ae13-c3fef203ec10" >
 			<ee:message >
 				<ee:set-payload resource="dwlScripts/delete-opportunity-by-id-response.dwl" />
@@ -39,8 +39,8 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 		<logger level="INFO" doc:name="End Logger" doc:id="722384a7-465c-41c5-be19-ca70bf31bbe2" message="delete-opportunity-by-idFlow completed"/>
 	</flow>
 	<flow name="get-all-opportunitiesFlow" doc:id="03e1794e-f2a8-40d4-aeab-ebf3e920f2f9" >
-		<logger level="INFO" doc:name="getAll-opportunities-implementation Flow-started" doc:id="75fd127b-6e42-4b26-84db-f0f5acb077a4" message="getAll-opportunities-implementation Flow-started" />
-		<salesforce:query doc:id="1454432a-b2e2-49ee-8eb3-6fe9ba0638cd" config-ref="Salesforce_Config" doc:name="get-All-opportunities from salesforce">
+		<logger level="INFO" doc:name="getAll opportunities implementation Flow started" doc:id="75fd127b-6e42-4b26-84db-f0f5acb077a4" message="getAll-opportunities-implementation Flow-started" />
+		<salesforce:query doc:id="1454432a-b2e2-49ee-8eb3-6fe9ba0638cd" config-ref="Salesforce_Config" doc:name="Get All opportunities from salesforce">
 			<salesforce:salesforce-query ><![CDATA[SELECT AccountId,Amount,CampaignId,CloseDate,ContactId,Id,Type FROM Opportunity]]></salesforce:salesforce-query>
 		</salesforce:query>
 		<ee:transform doc:name="Convert To JSON" doc:id="d26771ba-971c-4d32-aed2-4b8ec2aa6660" >
@@ -48,13 +48,13 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 				<ee:set-payload resource="dwlScripts/get-all-opportunities-response.dwl" />
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="getAll-opportunities-implementation Flow-ended" doc:id="9125f162-2c49-486e-b1c8-ff24f42ab694" message="getAll-opportunities-implementation Flow-ended" />
+		<logger level="INFO" doc:name="getAll opportunities implementation Flow Ended" doc:id="9125f162-2c49-486e-b1c8-ff24f42ab694" message="getAll-opportunities-implementation Flow-ended" />
 	</flow>
 	
 	<flow name="get-opportunity-by-idFlow" doc:id="441ef4f7-7dea-4c26-a5f0-bb66b6612188" >
 		<logger level="INFO" doc:name="Start Logger" doc:id="cc60f0fe-85ce-44de-8690-56b675148ef0" message="get-opportunity-by-idFlow started" />
 		<set-variable value="#[attributes.uriParams.'oppurtunityId']" doc:name="oppurtunityId" doc:id="65ebcd8e-9e47-4763-98a2-ff0ae0580fb5" variableName="oppurtunityId"/>
-		<salesforce:query doc:name="get-opportunity-by-id from salesforce" doc:id="885c4f60-ce80-4594-b6a9-4d2790c6fd66" config-ref="Salesforce_Config" >
+		<salesforce:query doc:name="Get Opportunity By Id from Salesforce" doc:id="885c4f60-ce80-4594-b6a9-4d2790c6fd66" config-ref="Salesforce_Config" >
 			<salesforce:salesforce-query ><![CDATA[SELECT Id,AccountId,Amount,CampaignId,ContactId,CloseDate FROM Opportunity WHERE Id = ':id']]></salesforce:salesforce-query>
 			<salesforce:parameters ><![CDATA[#[output application/java
 ---
@@ -78,7 +78,7 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 				<ee:set-payload resource="dwlScripts/update-opportunity-request.dwl" />
 			</ee:message>
 		</ee:transform>
-		<salesforce:update type="Opportunity" doc:name="Update -opportunity in salesforce" doc:id="cf070c79-ad74-4024-8ede-740ed9036f69" config-ref="Salesforce_Config"/>
+		<salesforce:update type="Opportunity" doc:name="Update Opportunity in Salesforce" doc:id="cf070c79-ad74-4024-8ede-740ed9036f69" config-ref="Salesforce_Config"/>
 		<ee:transform doc:name="Set Response" doc:id="37aee458-63db-45fa-b8af-e56174f4c656" >
 			<ee:message >
 				<ee:set-payload resource="dwlScripts/update-opportunity-response.dwl" />
